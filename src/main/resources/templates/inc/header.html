@@ -1,0 +1,40 @@
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
+
+<body>
+
+<div th:fragment="header">
+    <!-- Header -->
+    <header class="navbar navbar-expand-md navbar-light d-print-none">
+        <div class="container-xl">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                <a href="/" class="text-decoration-none">
+                    SpringWebJobs
+                </a>
+            </h1>
+            <div class="navbar-nav flex-row order-md-last">
+                <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown">
+                        <span class="avatar avatar-sm">👤</span>
+                        <div class="d-none d-xl-block ps-2">
+                            <div sec:authentication="name">User</div>
+                            <div class="mt-1 small text-muted" sec:authentication="principal.authorities">Roles</div>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <a href="/logout" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+                <div class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a href="/login" class="btn btn-primary">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+</body>
+
+</html>

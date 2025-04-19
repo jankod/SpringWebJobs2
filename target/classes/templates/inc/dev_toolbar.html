@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Development</title>
+</head>
+<body>
+
+
+<div th:fragment="dev_toolbar">
+
+    <!--/* Dev Tools Panel (prikazuje se samo u dev profilu) */-->
+    <div class="card mt-3 mb-3 border-light shadow-sm"
+         th:if="${@environment.getProperty('spring.profiles.active') == 'dev'}">
+        <div class="card-body p-2">
+            <!-- Controller Info -->
+            <div th:if="${controllerInfo != null}" class="mb-3">
+                <div class="d-flex align-items-center mb-2">
+                    <a th:href="${@templatePathHelper.getControllerIdeLink(controllerInfo)}"
+                       target="_blank" class="btn btn-sm btn-link p-0">
+                        <span th:text="${controllerInfo.className}"></span>.<span
+                            th:text="${controllerInfo.methodName}"></span>
+                        <i class="bi bi-box-arrow-up-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!--/*@thymesVar id="templatePathHelper" type="hr.bioinfo.swj.util.TemplatePathHelper"*/-->
+            <div class="mb-2">
+                <span class="">Templates</span>
+                <div class="list-group list-group-flush small">
+                    <div th:each="template : ${#execInfo.getTemplateNames()}" class="list-group-item py-1 px-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a th:href="${'idea://open?file=' + @templatePathHelper.getTemplatePath(template)}"
+                               target="_blank" class="btn btn-sm btn-link p-0" th:text="${template} + '.html'">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
