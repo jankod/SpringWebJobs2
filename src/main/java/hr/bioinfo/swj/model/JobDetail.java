@@ -1,6 +1,5 @@
 package hr.bioinfo.swj.model;
 
-import hr.bioinfo.swj.job.JobExecution;
 import hr.bioinfo.swj.job.JobStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+
 
 @Setter
 @Getter

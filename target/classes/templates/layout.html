@@ -152,106 +152,28 @@
         </div>
 
 
-
-
-
-
-
-
         <!-- Footer -->
         <footer class="footer footer-transparent d-print-none">
             <div class="container-xl">
 
 
-                <div class="alert alert-info mb-3"
-                     th:if="${@environment.getProperty('spring.profiles.active') == 'dev'}">
-
-
-                    <div th:if="${controllerInfo != null}">
-                        <a th:href="${@templatePathHelper.getControllerIdeLink(controllerInfo)}"
-                           target="_blank"
-                           class="btn btn-sm btn-outline-primary ms-2">
-                            <span th:text="${controllerInfo.className}"></span>.<span
-                                th:text="${controllerInfo.methodName}"></span>
-                        </a>
+                <div class="row text-center align-items-center flex-row-reverse">
+                    <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                        <ul class="list-inline list-inline-dots mb-0">
+                            <li class="list-inline-item">
+                                Copyright &copy; 2023
+                                <a href="." class="link-secondary">SpringWebJobs</a>.
+                                All rights reserved.
+                            </li>
+                        </ul>
                     </div>
-
-
-                    <div class="list-group list-group-flush">
-                                <span th:each="template : ${#execInfo.getTemplateNames()}">
-                                    <!--                                            +'&line=23' -->
-                                    <a th:href="@{'idea://open?file=' + ${@templatePathHelper.getTemplatePath(template)}}"
-                                       target="_blank" class="list-group-item list-group-item-action">
-                                        <span th:text="${template}"></span>.html
-                                    </a>
-
-                                </span>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row text-center align-items-center flex-row-reverse">
-                <div class="col-12 col-lg-auto mt-3 mt-lg-0">
-                    <ul class="list-inline list-inline-dots mb-0">
-                        <li class="list-inline-item">
-                            Copyright &copy; 2023
-                            <a href="." class="link-secondary">SpringWebJobs</a>.
-                            All rights reserved.
-                        </li>
-                    </ul>
                 </div>
             </div>
         </footer>
     </div>
 </div>
 
-<!-- Dev Tools Panel (prikazuje se samo u dev profilu) -->
-<div class="card mt-3 mb-3 border-light shadow-sm" th:if="${@environment.getProperty('spring.profiles.active') == 'dev'}">
-  <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-    <span class="badge bg-info text-dark">DEV MODE</span>
-    <button class="btn btn-sm btn-outline-secondary" 
-            type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#devToolsPanel" 
-            aria-expanded="false">
-      <i class="bi bi-code-slash"></i> Developer Info
-    </button>
-  </div>
-  
-  <div class="collapse" id="devToolsPanel">
-    <div class="card-body p-2">
-      <!-- Controller Info -->
-      <div th:if="${controllerInfo != null}" class="mb-3">
-        <div class="d-flex align-items-center mb-2">
-          <span class="badge bg-secondary me-2">Controller</span>
-          <a th:href="${@templatePathHelper.getControllerIdeLink(controllerInfo)}"
-             target="_blank"
-             class="badge bg-light text-dark text-decoration-none">
-            <span th:text="${controllerInfo.className}"></span>.<span th:text="${controllerInfo.methodName}"></span>
-            <i class="bi bi-box-arrow-up-right ms-1"></i>
-          </a>
-        </div>
-      </div>
-      
-      <!-- Template Files -->
-      <div class="mb-2">
-        <span class="badge bg-secondary mb-2">Templates</span>
-        <div class="list-group list-group-flush small">
-          <div th:each="template : ${#execInfo.getTemplateNames()}" class="list-group-item py-1 px-2">
-            <div class="d-flex justify-content-between align-items-center">
-              <span th:text="${template} + '.html'" class="text-truncate"></span>
-              <a th:href="${'idea://open?file=' + @templatePathHelper.getTemplatePath(template)}"
-                 target="_blank" class="btn btn-sm btn-link p-0">
-                <i class="bi bi-pencil-square"></i> Edit
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<div th:replace="~{inc/dev_toolbar :: dev_toolbar}"></div>
 
 <div layout:fragment="scripts"></div>
 

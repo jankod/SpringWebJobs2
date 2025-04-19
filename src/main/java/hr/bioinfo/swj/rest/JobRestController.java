@@ -1,6 +1,5 @@
 package hr.bioinfo.swj.rest;
 
-import hr.bioinfo.swj.job.Job;
 import hr.bioinfo.swj.model.JobDetail;
 import hr.bioinfo.swj.repository.JobDetailRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
