@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"
+      lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - SpringWebJobs</title>
+</head>
+<body>
+
+<!-- This is a Thymeleaf fragment that will be inserted into the layout -->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Welcome to SpringWebJobs</h3>
+                    <p>This is a web application for managing and monitoring jobs.</p>
+
+                    <div class="mt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Job Management</h4>
+                                        <p>Create, monitor, and manage your jobs efficiently.</p>
+                                        <a href="/jobs" class="btn btn-primary">View Jobs</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">About the System</h4>
+                                        <p>Learn more about the SpringWebJobs system and its features.</p>
+                                        <a href="/about" class="btn btn-outline-primary">About</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

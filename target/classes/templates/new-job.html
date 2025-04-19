@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"
+      lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>New Job - SpringWebJobs</title>
+    <link th:href="@{/webjars/codemirror/lib/codemirror.css}" rel="stylesheet"/>
+    <style>
+        .CodeMirror {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+
+            resize: both;
+            overflow: auto;
+            min-height: 150px;
+            min-width: 300px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- This is a Thymeleaf fragment that will be inserted into the layout -->
+<div layout:fragment="content" x-data="jobForm()">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Create New Job</h3>
+                </div>
+                <div class="card-body">
+                    <form @submit.prevent="submitJob">
+                        <!-- Job Name -->
+                        <div class="mb-3">
+                            <label class="form-label required">Job Name</label>
+                            <input type="text" class="form-control" x-model="job.name" required>
+                            <div class="invalid-feedback" x-show="errors.name" x-text="errors.name"></div>
+                        </div>
+
+                        <!-- Job Description -->
+                        <div class="mb-3">
+                            <label class="form-label">Job Description</label>
+                            <textarea class="form-control" rows="3" x-model="job.description"></textarea>
+                        </div>
+
+                        <!-- Job Type Selection -->
+                        <div class="mb-3">
+                            <label class="form-label required">Job Type</label>
+                            <div class="form-selectgroup">
+                                <label class="form-selectgroup-item">
+                                    <input type="radio" name="jobType" value="groovy" class="form-selectgroup-input"
+                                           x-model="jobType" checked>
+                                    <span class="form-selectgroup-label">Groovy Script</span>
+                                </label>
+                                <label class="form-selectgroup-item">
+                                    <input type="radio" name="jobType" value="java" class="form-selectgroup-input"
+                                           x-model="jobType">
+                                    <span class="form-selectgroup-label">Java Class</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Groovy Script Editor (shown when jobType is 'groovy') -->
+                        <div class="mb-3" x-show="jobType === 'groovy'">
+                            <label class="form-label required">Groovy Script</label>
+                            <div id="groovy-editor"></div>
+                            <div class="invalid-feedback" x-show="errors.groovyCode" x-text="errors.groovyCode"></div>
+                        </div>
+
+                        <!-- Java Class Selection (shown when jobType is 'java') -->
+                        <div class="mb-3" x-show="jobType === 'java'">
+                            <label class="form-label required" for="jobJavaClass">Java Class</label>
+                            <select id="jobJavaClass" class="form-select" x-model="job.javaClass">
+                                <option value="">Select a Java class</option>
+                                <template x-for="javaClass in javaClasses" :key="javaClass">
+                                    <option :value="javaClass" x-text="javaClass"></option>
+                                </template>
+                            </select>
+                            <div class="invalid-feedback" x-show="errors.javaClass" x-text="errors.javaClass"></div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-footer">
+                            <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
+                                <span x-show="isSubmitting" class="spinner-border spinner-border-sm me-2"
+                                      role="status"></span>
+                                Create Job
+                            </button>
+                            <a href="/jobs" class="btn btn-outline-secondary ms-2">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div layout:fragment="scripts">
+
+    <!-- CodeMirror JS -->
+    <script th:src="@{/webjars/codemirror/lib/codemirror.js}"></script>
+    <script th:src="@{/webjars/codemirror/mode/groovy/groovy.js}"></script>
+
+    <script>
+        window.jobForm = function () {
+
+            return {
+                job: {
+                    name: '',
+                    description: '',
+                    groovyCode: '',
+                    javaClass: ''
+                },
+                jobType: 'groovy',
+                javaClasses: [],
+                errors: {},
+                isSubmitting: false,
+                editor: null,
+
+                init() {
+                    console.log("Initializing job form...");
+                    // Initialize CodeMirror after the DOM is loaded
+                    this.$nextTick(() => {
+                        this.initCodeMirror();
+                        this.loadJavaClasses();
+                    });
+
+                    // Watch for changes in job type
+                    this.$watch('jobType', (value) => {
+                        if (value === 'groovy' && !this.editor) {
+                            this.$nextTick(() => {
+                                this.initCodeMirror();
+                            });
+                        }
+                    });
+                },
+
+                initCodeMirror() {
+                    const editorElement = document.getElementById('groovy-editor');
+                    if (editorElement) {
+                        this.editor = CodeMirror(editorElement, {
+                            mode: 'text/x-groovy',
+                            lineNumbers: true,
+                            theme: 'default',
+                            indentUnit: 4,
+                            indentWithTabs: false,
+                            smartIndent: true,
+                            autofocus: true
+                        });
+
+                        // Set initial value if any
+                        if (this.job.groovyCode) {
+                            this.editor.setValue(this.job.groovyCode);
+                        }
+
+                        // Update model when editor content changes
+                        this.editor.on('change', () => {
+                            this.job.groovyCode = this.editor.getValue();
+                        });
+                    }
+                },
+
+                loadJavaClasses() {
+                    fetch('/api/jobs/java-classes')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.javaClasses = data;
+                        })
+                        .catch(error => {
+                            console.error('Error loading Java classes:', error);
+                        });
+                },
+
+                submitJob() {
+                    this.errors = {};
+                    this.isSubmitting = true;
+
+                    // Get the current code from CodeMirror if using Groovy
+                    if (this.jobType === 'groovy' && this.editor) {
+                        this.job.groovyCode = this.editor.getValue();
+                    }
+
+                    // Prepare the data to send
+                    const jobData = {
+                        name: this.job.name,
+                        description: this.job.description,
+                        type: this.jobType
+                    };
+
+                    if (this.jobType === 'groovy') {
+                        jobData.groovyCode = this.job.groovyCode;
+                    } else {
+                        jobData.javaClass = this.job.javaClass;
+                    }
+
+                    // Send the data to the server
+                    fetch('/api/jobs', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(jobData)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(data => {
+                                    throw new Error(JSON.stringify(data));
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Redirect to the jobs page on success
+                            window.location.href = '/jobs';
+                        })
+                        .catch(error => {
+                            this.isSubmitting = false;
+                            try {
+                                const errorData = JSON.parse(error.message);
+                                this.errors = errorData.errors || {general: errorData.message || 'An error occurred'};
+                            } catch (e) {
+                                this.errors = {general: 'An unexpected error occurred'};
+                            }
+                        });
+                }
+            };
+        }
+
+    </script>
+</div>
+</body>
+</html>

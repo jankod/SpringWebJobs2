@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"
+      lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>About - SpringWebJobs</title>
+</head>
+<body>
+
+<!-- This is a Thymeleaf fragment that will be inserted into the layout -->
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">About SpringWebJobs</h3>
+                    <p class="text-muted">A modern job management system built with Spring Boot</p>
+                    
+                    <div class="mt-4">
+                        <h4>Features</h4>
+                        <ul class="list-group mb-4">
+                            <li class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="badge bg-blue">Feature</span>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Job Scheduling</strong>
+                                        <div class="text-muted">Schedule jobs to run at specific times or intervals</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="badge bg-blue">Feature</span>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Job Monitoring</strong>
+                                        <div class="text-muted">Monitor job status and execution details</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="badge bg-blue">Feature</span>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Error Handling</strong>
+                                        <div class="text-muted">Automatic retry and error notification</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="badge bg-blue">Feature</span>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Reporting</strong>
+                                        <div class="text-muted">Generate reports on job execution statistics</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <h4>Technology Stack</h4>
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Backend</h5>
+                                        <ul class="list-unstyled">
+                                            <li>Spring Boot</li>
+                                            <li>Spring Data JPA</li>
+                                            <li>PostgreSQL</li>
+                                            <li>Lombok</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Frontend</h5>
+                                        <ul class="list-unstyled">
+                                            <li>Thymeleaf</li>
+                                            <li>Tabler CSS</li>
+                                            <li>Bootstrap</li>
+                                            <li>JavaScript</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">DevOps</h5>
+                                        <ul class="list-unstyled">
+                                            <li>Docker</li>
+                                            <li>Maven</li>
+                                            <li>Git</li>
+                                            <li>CI/CD</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
